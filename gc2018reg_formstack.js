@@ -2,16 +2,16 @@ function  FF_OnAfterRender(){
 	console.log('FF_OnAfterRender');
 	// populate address fields in text block programmatically
 	// from mailing address data
-	var val0 = $('#Contact\\.MailingStreet').val() || $('#Contact\\.MailingStreet').val();
+	var val0 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.OtherStreet').val();
 	console.log(val0);
 	$('#genstreet').text(val0);
-	var val1 = $('#Contact\\.MailingCity').val();
+	var val1 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.OtherCity').val();
 	$('#gencity').text(val1);
-	var val2 = $('#Contact\\.MailingPostalCode').val();
+	var val2 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.OtherPostalCode').val();
 	$('#genzip').text(val2);
-	var val3 = $('#Contact\\.MobilePhone').val();
+	var val3 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.MobilePhone').val();
 	$('#genmobile').text(val3);
-	var val4 = $('#Contact\\.HomePhone').val();
+	var val4 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.HomePhone').val();
 	$('#genphone').text(val4);
 	// ?? is this going anywhere? looks like an unused variable
 	var val5 = $('#Contact\\.soslula__Event_Attendee__c\\.A\\.Lodging_number_of_days__c').val();

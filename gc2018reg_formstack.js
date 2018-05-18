@@ -13,8 +13,6 @@ function  FF_OnAfterRender(){
 	$('#genmobile').text(val3);
 	var val4 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.HomePhone').val();
 	$('#genphone').text(val4);
-	// ?? is this going anywhere? looks like an unused variable
-	var val5 = $('#Contact\\.soslula__Event_Attendee__c\\.A\\.Lodging_number_of_days__c').val();
 }
 
 function changeLabels() {
@@ -51,7 +49,7 @@ function daysDiffLodgingCheckInOut() {
 
 function executeEvaluatePaymentAmount(noOfDays){
 	if (noOfDays !== '') {
-	var numberOfDays=0;
+	var numberOfDays = 0;
 		try {
 			numberOfDays = parseInt(noOfDays);
 		}
@@ -59,7 +57,7 @@ function executeEvaluatePaymentAmount(noOfDays){
 		 	console.log(err);
 		}
 
-	EvaluatePaymentAmount('SUBTOTAL','61','["Contact\\\\.soslula__Event_Attendee__c\\\\.A\\\\.Friday_celebration_adult_guest_meals__c"].val*24.5+["Contact\\\\.soslula__Event_Attendee__c\\\\.A\\\\.Friday_celebration_child_guest_meals__c"].val*12.5+IF(["Contact\\\\.soslula__Event_Attendee__c\\\\.A\\\\.Room_type__c"].amount=1 & ["Contact\\\\.soslula__Event_Attendee__c\\\\.A\\\\.Lodging_exception__c"].amount=0,'+numberOfDays+'*58,0)+IF(["Contact\\\\.soslula__Event_Attendee__c\\\\.A\\\\.Room_type__c"].amount=2 & ["Contact\\\\.soslula__Event_Attendee__c\\\\.A\\\\.Lodging_exception__c"].amount=0 & ["Contact\\\\.soslula__Event_Attendee__c\\\\.A\\\\.My_roommate_is__c"].amount=2,'+numberOfDays+'*58,0)');
+	EvaluatePaymentAmount('SUBTOTAL','61','["soslula__Event_Attendee__c\\\\.Friday_celebration_adult_guest_meals__c"].val * 24.5 + ["soslula__Event_Attendee__c\\\\.Friday_celebration_child_guest_meals__c"].val * 12.5 + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 1 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 58 ,0) + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 2 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0 & ["soslula__Event_Attendee__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 58, 0)');
 	}
 }
 
@@ -68,17 +66,17 @@ function reCalculateLodgingSubtotal(lodgeDays) {
 	var lodgingDays=0;
 	lodgingDays=getNumericVal(lodgeDays,0);
 	lodgingSub=calculateLodgingSubTotal(lodgingDays);
-	 $('#Contact\\.soslula__Event_Attendee__c\\.A\\.Lodging_subtotal__c').val(lodgingSub);
-	var adultMeals=getNumericVal($('#Contact\\.soslula__Event_Attendee__c\\.A\\.Friday_celebration_adult_guest_meals__c').val(),0);
-	var childMeals=getNumericVal($('#Contact\\.soslula__Event_Attendee__c\\.A\\.Friday_celebration_child_guest_meals__c').val(),0);
+	 $('#soslula__Event_Attendee__c\\.Lodging_subtotal__c').val(lodgingSub);
+	var adultMeals=getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_adult_guest_meals__c').val(),0);
+	var childMeals=getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_child_guest_meals__c').val(),0);
 	itemize(lodgingDays,adultMeals,childMeals);
 }
 
 function calculateLodgingSubTotal(lodgingDays){
 	var lodgingSub=0;
-	var roomType=$('#Contact\\.soslula__Event_Attendee__c\\.A\\.Room_type__c').val();
-	var lodgingEx=$('#Contact\\.soslula__Event_Attendee__c\\.A\\.Lodging_exception__c').is(':checked');
-	var roommate=$('#Contact\\.soslula__Event_Attendee__c\\.A\\.My_roommate_is__c').val();
+	var roomType=$('#soslula__Event_Attendee__c\\.Room_type__c').val();
+	var lodgingEx=$('#soslula__Event_Attendee__c\\.Lodging_exception__c').is(':checked');
+	var roommate=$('#soslula__Event_Attendee__c\\.My_roommate_is__c').val();
 
 	console.log('Lodging days: ' + lodgingDays);
 	console.log('lodgingEx: ' + lodgingEx);
@@ -97,19 +95,19 @@ function calculateLodgingSubTotal(lodgingDays){
 
 function lodgingSubtotal() {
 	var lodgingSub = 0;
-	var lodgingDays = getNumericVal($('#Contact\\.soslula__Event_Attendee__c\\.A\\.Lodging_number_of_days__c').val(),0);
+	var lodgingDays = getNumericVal($('#soslula__Event_Attendee__c\\.Lodging_number_of_days__c').val(),0);
 	lodgingSub = calculateLodgingSubTotal(lodgingDays);
 
-	var adultMeals = getNumericVal($('#Contact\\.soslula__Event_Attendee__c\\.A\\.Friday_celebration_adult_guest_meals__c').val(),0);
-	var childMeals = getNumericVal($('#Contact\\.soslula__Event_Attendee__c\\.A\\.Friday_celebration_child_guest_meals__c').val(),0);
+	var adultMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_adult_guest_meals__c').val(),0);
+	var childMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_child_guest_meals__c').val(),0);
 	itemize(lodgingDays,adultMeals,childMeals);
 	return lodgingSub;
 }
 
 function mealsSubtotal() {
-	var lodgingDays = getNumericVal($('#Contact\\.soslula__Event_Attendee__c\\.A\\.Lodging_number_of_days__c').val(),0);
-	var adultMeals = getNumericVal($('#Contact\\.soslula__Event_Attendee__c\\.A\\.Friday_celebration_adult_guest_meals__c').val(),0);
-	var childMeals = getNumericVal($('#Contact\\.soslula__Event_Attendee__c\\.A\\.Friday_celebration_child_guest_meals__c').val(),0);
+	var lodgingDays = getNumericVal($('#soslula__Event_Attendee__c\\.Lodging_number_of_days__c').val(),0);
+	var adultMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_adult_guest_meals__c').val(),0);
+	var childMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_child_guest_meals__c').val(),0);
 	var mealsSub = 0;
 	if (adultMeals !==0 || childMeals !==0) {
 	 mealsSub = (adultMeals * 24.5) + (childMeals * 12.5);

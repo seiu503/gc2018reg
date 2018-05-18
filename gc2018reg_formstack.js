@@ -24,22 +24,28 @@ function changeLabels() {
 	$("#lblFFExpiry61").text('Expiration Date');
 }
 
-function daysDiffLodgingChekInOut() {
+function daysDiffLodgingCheckInOut() {
 	// calculate total number of days of lodging requested
 	var returnVal=0;
-	var checkInVal=$('#Contact\\.soslula__Event_Attendee__c\\.A\\.Lodging_Check_in_Date__c').val();
-	var checkOutVal=$('#Contact\\.soslula__Event_Attendee__c\\.A\\.Lodging_Check_out_Date__c').val();
-	if (checkInVal!=='undefined' && checkInVal!=='' && checkOutVal!=='undefined' && checkOutVal!=='') {
-			var checkinDate=new Date(checkInVal);
-			var checkoutDate=new Date(checkOutVal);
-			var ms = Math.abs(checkoutDate-checkinDate);
-			returnVal= Math.floor(ms/1000/60/60/24);
+	var checkInVal=$('#soslula__Event_Attendee__c\\.Lodging_Check_in_Date__c').val();
+	// console.log(`checkInVal: ${checkInVal}`);
+	var checkOutVal=$('#soslula__Event_Attendee__c\\.Lodging_Check_out_Date__c').val();
+	// console.log(`checkOutVal: ${checkOutVal}`);
+	if (checkInVal !== 'undefined' && checkInVal !== '' && checkOutVal !== 'undefined' && checkOutVal !== '') {
+			var checkinDate = new Date(checkInVal);
+			var checkoutDate = new Date(checkOutVal);
+			// console.log(`checkinDate: ${checkinDate}, checkoutDate: ${checkoutDate}`);
+			var ms = Math.abs(checkoutDate - checkinDate);
+			// console.log(`ms: ${ms}`);
+			returnVal = Math.floor(ms/1000/60/60/24);
+			// console.log(`returnVal: ${returnVal}`);
 		} else {
-			returnVal=0;
+			returnVal = 0;
 		}
 
 	reCalculateLodgingSubtotal(returnVal);
 	executeEvaluatePaymentAmount(returnVal);
+
 	return returnVal;
 }
 

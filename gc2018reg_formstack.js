@@ -45,7 +45,7 @@ function executeEvaluatePaymentAmount(noOfDays){
 		 	console.log(err);
 		}
 
-	EvaluatePaymentAmount('SUBTOTAL','61','["soslula__Event_Attendee__c\\\\.Adult_guest_meals__c"].val * 24.5 + ["soslula__Event_Attendee__c\\\\.Child_guest_meals__c "].val * 12.5 + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 1 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 58 ,0) + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 2 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0 & ["soslula__Event_Attendee__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 58, 0)');
+	EvaluatePaymentAmount('SUBTOTAL','61','["soslula__Event_Attendee__c\\\\.Adult_guest_meals__c"].val * 24.5 + ["soslula__Event_Attendee__c\\\\.Child_guest_meals__c "].val * 12.5 + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 1 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 2 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0 & ["soslula__Event_Attendee__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 64, 0)');
 	}
 }
 
@@ -69,13 +69,13 @@ function calculateLodgingSubTotal(lodgingDays){
 	console.log('Lodging days: ' + lodgingDays);
 	console.log('lodgingEx: ' + lodgingEx);
 	if (roomType === "Single Room (1 person - 1 Bed)" && (!lodgingEx)) {
-		lodgingSub = (lodgingDays * 58);
+		lodgingSub = (lodgingDays * 64);
 		console.log('Single room: ' + lodgingSub);
 	} else if (roomType === "Double Room (2 People - 1 Bed)" && roommate === "Not an SEIU 503 member" && (!lodgingEx)) {
-		lodgingSub = (lodgingDays * 58);
+		lodgingSub = (lodgingDays * 64);
 		console.log('Double room 1: ' + lodgingSub);
 	} else if (roomType === "Double Room (2 People - 2 Beds)" && roommate === "Not an SEIU 503 member" && (!lodgingEx)) {
-		lodgingSub = (lodgingDays * 58);
+		lodgingSub = (lodgingDays * 64);
 		console.log('Double room 2: ' + lodgingSub);
 	}
 	return lodgingSub;

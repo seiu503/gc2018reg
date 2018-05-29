@@ -1,18 +1,6 @@
 function  FF_OnAfterRender(){
 	console.log('FF_OnAfterRender');
-	// populate address fields in text block programmatically
-	// from mailing address data
-	var val0 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.OtherStreet').val();
-	console.log(val0);
-	$('#genstreet').text(val0);
-	var val1 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.OtherCity').val();
-	$('#gencity').text(val1);
-	var val2 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.OtherPostalCode').val();
-	$('#genzip').text(val2);
-	var val3 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.MobilePhone').val();
-	$('#genmobile').text(val3);
-	var val4 = $('#soslula__Event_Attendee__c\\.soslula__Contact__c\\.HomePhone').val();
-	$('#genphone').text(val4);
+
 }
 
 function changeLabels() {
@@ -57,7 +45,7 @@ function executeEvaluatePaymentAmount(noOfDays){
 		 	console.log(err);
 		}
 
-	EvaluatePaymentAmount('SUBTOTAL','61','["soslula__Event_Attendee__c\\\\.Friday_celebration_adult_guest_meals__c"].val * 24.5 + ["soslula__Event_Attendee__c\\\\.Friday_celebration_child_guest_meals__c"].val * 12.5 + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 1 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 58 ,0) + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 2 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0 & ["soslula__Event_Attendee__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 58, 0)');
+	EvaluatePaymentAmount('SUBTOTAL','61','["soslula__Event_Attendee__c\\\\.Adult_guest_meals__c"].val * 24.5 + ["soslula__Event_Attendee__c\\\\.Child_guest_meals__c "].val * 12.5 + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 1 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 58 ,0) + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 2 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0 & ["soslula__Event_Attendee__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 58, 0)');
 	}
 }
 
@@ -67,8 +55,8 @@ function reCalculateLodgingSubtotal(lodgeDays) {
 	lodgingDays=getNumericVal(lodgeDays,0);
 	lodgingSub=calculateLodgingSubTotal(lodgingDays);
 	 $('#soslula__Event_Attendee__c\\.Lodging_subtotal__c').val(lodgingSub);
-	var adultMeals=getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_adult_guest_meals__c').val(),0);
-	var childMeals=getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_child_guest_meals__c').val(),0);
+	var adultMeals=getNumericVal($('#soslula__Event_Attendee__c\\.Adult_guest_meals__c').val(),0);
+	var childMeals=getNumericVal($('#soslula__Event_Attendee__c\\.Child_guest_meals__c').val(),0);
 	itemize(lodgingDays,adultMeals,childMeals);
 }
 
@@ -98,16 +86,16 @@ function lodgingSubtotal() {
 	var lodgingDays = getNumericVal($('#soslula__Event_Attendee__c\\.Lodging_number_of_days__c').val(),0);
 	lodgingSub = calculateLodgingSubTotal(lodgingDays);
 
-	var adultMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_adult_guest_meals__c').val(),0);
-	var childMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_child_guest_meals__c').val(),0);
+	var adultMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Adult_guest_meals__c').val(),0);
+	var childMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Child_guest_meals__c').val(),0);
 	itemize(lodgingDays,adultMeals,childMeals);
 	return lodgingSub;
 }
 
 function mealsSubtotal() {
 	var lodgingDays = getNumericVal($('#soslula__Event_Attendee__c\\.Lodging_number_of_days__c').val(),0);
-	var adultMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_adult_guest_meals__c').val(),0);
-	var childMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Friday_celebration_child_guest_meals__c').val(),0);
+	var adultMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Adult_guest_meals__c').val(),0);
+	var childMeals = getNumericVal($('#soslula__Event_Attendee__c\\.Child_guest_meals__c').val(),0);
 	var mealsSub = 0;
 	if (adultMeals !==0 || childMeals !==0) {
 	 mealsSub = (adultMeals * 24.5) + (childMeals * 12.5);

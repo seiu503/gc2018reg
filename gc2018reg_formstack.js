@@ -10,9 +10,9 @@ function  FF_OnAfterRender(){
 
 function changeLabels() {
 	// better labeling for CVV and expiration date fields
-	$("#lblFFSubTotalAmount61").text('Total');
-	$("#lblFFCVV61").html('CVV &#40;3-digit number on back of card&#41;');
-	$("#lblFFExpiry61").text('Expiration Date');
+	$("#lblFFSubTotalAmount205").text('Total');
+	$("#lblFFCVV205").html('CVV &#40;3-digit number on back of card&#41;');
+	$("#lblFFExpiry205").text('Expiration Date');
 }
 
 function setTransactionDate() {
@@ -63,15 +63,17 @@ function calculateLodgingSubTotal(lodgingDays){
 
 	console.log('Lodging days: ' + lodgingDays);
 	console.log('lodgingEx: ' + lodgingEx);
-	if (roomType === "Single Room (1 person - 1 Bed)" && (!lodgingEx)) {
+	if ((roomType === "Double Room (2 People - 1 Bed)" ||
+		roomType === "Double Room (2 People - 2 Beds)") && roommate === "Not an SEIU 503 member" && (!lodgingEx)) {
+			lodgingSub = (lodgingDays * 64);
+			console.log('Double room: ' + lodgingSub);
+		}
+	if (
+			(roomType === "Single Room (1 person - 1 Bed)" && (!lodgingEx)) ||
+			(pet && !serviceAnimal)
+		) {
 		lodgingSub = (lodgingDays * 64);
-		console.log('Single room: ' + lodgingSub);
-	} else if (roomType === "Double Room (2 People - 1 Bed)" && roommate === "Not an SEIU 503 member" && (!lodgingEx)) {
-		lodgingSub = (lodgingDays * 64);
-		console.log('Double room 1: ' + lodgingSub);
-	} else if (roomType === "Double Room (2 People - 2 Beds)" && roommate === "Not an SEIU 503 member" && (!lodgingEx)) {
-		lodgingSub = (lodgingDays * 64);
-		console.log('Double room 2: ' + lodgingSub);
+		console.log('Single room or pet-friendly: ' + lodgingSub);
 	}
 
 	if (pet && !serviceAnimal) {
@@ -103,7 +105,7 @@ function executeEvaluatePaymentAmount(noOfDays){
 		}
 
 	new EvaluatePaymentAmount('SUBTOTAL',
-		'61',
+		'205',
 		'["X2018_General_Council__c\\\\.Adult_guest_meals__c"].val * 24.5 + ["X2018_General_Council__c\\\\.Child_guest_meals__c"].val * 12.5 + IF(["X2018_General_Council__c\\\\.Room_type__c"].amount = 1 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) +IF(["X2018_General_Council__c\\\\.Room_type__c"].amount = 2 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0 & ["X2018_General_Council__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 64, 0) +IF(["X2018_General_Council__c\\\\.Pet_friendly_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Registered_service_animal__c"].amount = 0,50, 0)');
 	}
 }

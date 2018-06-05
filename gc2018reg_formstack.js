@@ -108,6 +108,7 @@ function executeEvaluatePaymentAmount(noOfDays){
 		'205',
 		'["X2018_General_Council__c\\\\.Adult_guest_meals__c"].val * 24.5 + ["X2018_General_Council__c\\\\.Child_guest_meals__c"].val * 12.5 + IF(["X2018_General_Council__c\\\\.Room_type__c"].amount = 1 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) +IF(["X2018_General_Council__c\\\\.Room_type__c"].amount = 2 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0 & ["X2018_General_Council__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 64, 0) +IF(["X2018_General_Council__c\\\\.Pet_friendly_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Registered_service_animal__c"].amount = 0,50, 0)');
 	}
+	changeLabels();
 }
 
 function daysDiffLodgingCheckInOut() {

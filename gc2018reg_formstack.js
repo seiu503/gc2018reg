@@ -13,9 +13,9 @@ function changeLabels() {
 function daysDiffLodgingCheckInOut() {
 	// calculate total number of days of lodging requested
 	var returnVal=0;
-	var checkInVal=$('#soslula__Event_Attendee__c\\.Lodging_Check_in_Date__c').val();
-	// console.log(`checkInVal: ${checkInVal}`);
-	var checkOutVal=$('#soslula__Event_Attendee__c\\.Lodging_Check_out_Date__c').val();
+	var checkInVal=$('#X2018_General_Council__c.\\Lodging_Check_in_Date__c').val();
+	console.log(`checkInVal: ${checkInVal}`);
+	var checkOutVal=$('#X2018_General_Council__c\\.Lodging_Check_out_Date__c').val();
 	// console.log(`checkOutVal: ${checkOutVal}`);
 	if (checkInVal !== 'undefined' && checkInVal !== '' && checkOutVal !== 'undefined' && checkOutVal !== '') {
 			var checkinDate = new Date(checkInVal);
@@ -45,7 +45,12 @@ function executeEvaluatePaymentAmount(noOfDays){
 		 	console.log(err);
 		}
 
-	EvaluatePaymentAmount('SUBTOTAL','61','["soslula__Event_Attendee__c\\\\.Adult_guest_meals__c"].val * 24.5 + ["soslula__Event_Attendee__c\\\\.Child_guest_meals__c "].val * 12.5 + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 1 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) + IF(["soslula__Event_Attendee__c\\\\.Room_type__c"].amount = 2 & ["soslula__Event_Attendee__c\\\\.Lodging_exception__c"].amount = 0 & ["soslula__Event_Attendee__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 64, 0)');
+	EvaluatePaymentAmount('SUBTOTAL',
+		'61',
+		'["X2018_General_Council__c\\\\.Adult_guest_meals__c"].val * 24.5 + ["X2018_General_Council__c\\\\.Child_guest_meals__c "].val * 12.5 + IF(["X2018_General_Council__c\\\\.Room_type__c"].amount = 1 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) +
+		IF(["X2018_General_Council__c\\\\.Room_type__c"].amount = 2 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0 & ["X2018_General_Council__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 64, 0)') +
+		IF(["X2018_General_Council__c\\\\.Pet_friendly_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Registered_service_animal__c"].amount = 0,50, 0)'
+		);
 	}
 }
 

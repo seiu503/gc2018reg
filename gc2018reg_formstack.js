@@ -5,6 +5,9 @@
 
 function  FF_OnAfterRender(){
 	console.log('FF_OnAfterRender');
+	// populate GC attendance status field
+	var gcAttendanceStatus = $("select[name='X2018_General_Council__c.I_will_attend_General_Council_as_a__c'] option:selected").val();
+	$("#gcAttendanceStatus").text(gcAttendanceStatus);
 
 }
 
@@ -55,7 +58,7 @@ function itemize(lodgedays, adultMeals, childMeals) {
 
 function calculateLodgingSubTotal(lodgingDays){
 	var lodgingSub=0;
-	var roomType=$('#X2018_General_Council__c\\.Room_type__c').val();
+	var roomType=$('#X2018_General_Council__c.Are_you_willing_to_share_a_room__c').val();
 	var lodgingEx=$('#X2018_General_Council__c\\.Lodging_exception__c').is(':checked');
 	var roommate=$('#X2018_General_Council__c\\.My_roommate_is__c').val();
 	var pet=$('#X2018_General_Council__c\\.Pet_friendly_room__c').is(':checked');
@@ -63,23 +66,16 @@ function calculateLodgingSubTotal(lodgingDays){
 
 	console.log('Lodging days: ' + lodgingDays);
 	console.log('lodgingEx: ' + lodgingEx);
-	if ((roomType === "Double Room (2 People - 1 Bed)" ||
-		roomType === "Double Room (2 People - 2 Beds)") && roommate === "Not an SEIU 503 member" && (!lodgingEx)) {
+	console.log('roomType: ' + roomType);
+	if (((roomType === "Yes member" && roommate === "not member or staff") || roomType === "No") && (!lodgingEx)) {
 			lodgingSub = (lodgingDays * 64);
-			console.log('Double room: ' + lodgingSub);
+			console.log('Charged for room: ' + lodgingSub);
 		}
-	if (
-			(roomType === "Single Room (1 person - 1 Bed)" && (!lodgingEx)) ||
-			(pet && !serviceAnimal)
-		) {
-		lodgingSub = (lodgingDays * 64);
-		console.log('Single room or pet-friendly: ' + lodgingSub);
+	if (pet && !serviceAnimal) {
+		lodgingSub = ((lodgingDays * 64) + 50);
+		console.log('Single room plus pet fee:  ' + lodgingSub);
 	}
 
-	if (pet && !serviceAnimal) {
-		lodgingSub = lodgingSub + 50;
-		console.log('Plus pet fee: ' + lodgingSub);
-	}
 	return lodgingSub;
 }
 
@@ -106,7 +102,7 @@ function executeEvaluatePaymentAmount(noOfDays){
 
 	new EvaluatePaymentAmount('SUBTOTAL',
 		'205',
-		'["X2018_General_Council__c\\\\.Adult_guest_meals__c"].val * 24.5 + ["X2018_General_Council__c\\\\.Child_guest_meals__c"].val * 12.5 + IF(["X2018_General_Council__c\\\\.Room_type__c"].amount = 1 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) +IF(["X2018_General_Council__c\\\\.Room_type__c"].amount = 2 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0 & ["X2018_General_Council__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 64, 0) +IF(["X2018_General_Council__c\\\\.Pet_friendly_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Registered_service_animal__c"].amount = 0,50, 0)');
+		'["X2018_General_Council__c\\\\.Adult_guest_meals__c"].val * 42.5 + ["X2018_General_Council__c\\\\.Child_guest_meals__c"].val * 20 + IF(["X2018_General_Council__c\\\\.Are_you_willing_to_share_a_room__c"].amount = 3 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) +IF(["X2018_General_Council__c\\\\.Are_you_willing_to_share_a_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0 & ["X2018_General_Council__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 64, 0) +IF(["X2018_General_Council__c\\\\.Pet_friendly_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Registered_service_animal__c"].amount = 0,50, 0)');
 	}
 	changeLabels();
 }
@@ -153,7 +149,7 @@ function mealsSubtotal() {
 	var childMeals = getNumericVal($('#X2018_General_Council__c\\.Child_guest_meals__c').val(),0);
 	var mealsSub = 0;
 	if (adultMeals !==0 || childMeals !==0) {
-	 mealsSub = (adultMeals * 24.5) + (childMeals * 12.5);
+	 mealsSub = (adultMeals * 42.5) + (childMeals * 20);
 	} else  {
 		mealsSub = 0;
 	}
@@ -165,4 +161,4 @@ function mealsSubtotal() {
 
 //////
 const stripePaymentFormula =
-["X2018_General_Council__c.Adult_guest_meals__c"].val*24.5+["X2018_General_Council__c.Child_guest_meals__c"].val*12.5+IF(((["X2018_General_Council__c.Room_type__c"].amount=1 || ["X2018_General_Council__c.Room_type__c"].amount=2) &amp;&amp; ["X2018_General_Council__c.Lodging_exception__c"].amount=0) || (["X2018_General_Council__c.Pet_friendly_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Registered_service_animal__c"].amount=0),(64*["X2018_General_Council__c.Lodging_number_of_days__c"].val),0)+IF(["X2018_General_Council__c.Room_type__c"].amount=2 &amp;&amp; ["X2018_General_Council__c.Lodging_exception__c"].amount=0 &amp;&amp; ["X2018_General_Council__c.My_roommate_is__c"].amount=2,(64*["X2018_General_Council__c.Lodging_number_of_days__c"].val),0)+IF(["X2018_General_Council__c.Pet_friendly_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Registered_service_animal__c"].amount=0, 50,0)
+["X2018_General_Council__c.Adult_guest_meals__c"].val*42.5+["X2018_General_Council__c.Child_guest_meals__c"].val*20+IF(((["X2018_General_Council__c.Are_you_willing_to_share_a_room__c"].amount=3) &amp;&amp; ["X2018_General_Council__c.Lodging_exception__c"].amount=0) || (["X2018_General_Council__c.Pet_friendly_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Registered_service_animal__c"].amount=0),(64*["X2018_General_Council__c.Lodging_number_of_days__c"].val),0)+IF(["X2018_General_Council__c.Are_you_willing_to_share_a_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Lodging_exception__c"].amount=0 &amp;&amp; ["X2018_General_Council__c.My_roommate_is__c"].amount=2,(64*["X2018_General_Council__c.Lodging_number_of_days__c"].val),0)+IF(["X2018_General_Council__c.Pet_friendly_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Registered_service_animal__c"].amount=0, 50,0)

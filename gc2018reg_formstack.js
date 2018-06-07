@@ -16,8 +16,8 @@ function  FF_OnAfterRender(){
 			format: "mm/dd/yyyy",
 	    useCurrent: false,
 	    showClose: true,
-	    minDate: '08/06/2018',
-	    maxDate: '08/12/2018',
+	    minDate: new Date('08/06/2018'),
+	    maxDate: new Date('08/12/2018'),
 			});
 	});
 return true;
@@ -82,14 +82,13 @@ function calculateLodgingSubTotal(lodgingDays){
 	var lodgingSub=0;
 	var roomType=$('#X2018_General_Council__c.Are_you_willing_to_share_a_room__c').val();
 	var lodgingEx=$('#X2018_General_Council__c\\.Lodging_exception__c').is(':checked');
-	var roommate=$('#X2018_General_Council__c\\.My_roommate_is__c').val();
 	var pet=$('#X2018_General_Council__c\\.Pet_friendly_room__c').is(':checked');
 	var serviceAnimal=$('#X2018_General_Council__c\\.Registered_service_animal__c').is(':checked');
 
 	console.log('Lodging days: ' + lodgingDays);
 	console.log('lodgingEx: ' + lodgingEx);
 	console.log('roomType: ' + roomType);
-	if (((roomType === "Yes member" && roommate === "not member or staff") || roomType === "No") && (!lodgingEx)) {
+	if (roomType === "No" && !lodgingEx) {
 			lodgingSub = (lodgingDays * 64);
 			console.log('Charged for room: ' + lodgingSub);
 		}
@@ -124,7 +123,7 @@ function executeEvaluatePaymentAmount(noOfDays){
 
 	new EvaluatePaymentAmount('SUBTOTAL',
 		'205',
-		'["X2018_General_Council__c\\\\.Adult_guest_meals__c"].val * 42.5 + ["X2018_General_Council__c\\\\.Child_guest_meals__c"].val * 20 + IF(["X2018_General_Council__c\\\\.Are_you_willing_to_share_a_room__c"].amount = 3 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) +IF(["X2018_General_Council__c\\\\.Are_you_willing_to_share_a_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0 & ["X2018_General_Council__c\\\\.My_roommate_is__c"].amount = 2,' + numberOfDays + ' * 64, 0) +IF(["X2018_General_Council__c\\\\.Pet_friendly_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Registered_service_animal__c"].amount = 0,50, 0)');
+		'["X2018_General_Council__c\\\\.Adult_guest_meals__c"].val * 42.5 + ["X2018_General_Council__c\\\\.Child_guest_meals__c"].val * 20 + IF(["X2018_General_Council__c\\\\.Are_you_willing_to_share_a_room__c"].amount = 3 & ["X2018_General_Council__c\\\\.Lodging_exception__c"].amount = 0,' +numberOfDays + ' * 64 ,0) +IF(["X2018_General_Council__c\\\\.Pet_friendly_room__c"].amount = 1 & ["X2018_General_Council__c\\\\.Registered_service_animal__c"].amount = 0,50, 0)');
 	}
 	changeLabels();
 }
@@ -183,4 +182,4 @@ function mealsSubtotal() {
 
 //////
 const stripePaymentFormula =
-["X2018_General_Council__c.Adult_guest_meals__c"].val*42.5+["X2018_General_Council__c.Child_guest_meals__c"].val*20+IF(((["X2018_General_Council__c.Are_you_willing_to_share_a_room__c"].amount=3) &amp;&amp; ["X2018_General_Council__c.Lodging_exception__c"].amount=0) || (["X2018_General_Council__c.Pet_friendly_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Registered_service_animal__c"].amount=0),(64*["X2018_General_Council__c.Lodging_number_of_days__c"].val),0)+IF(["X2018_General_Council__c.Are_you_willing_to_share_a_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Lodging_exception__c"].amount=0 &amp;&amp; ["X2018_General_Council__c.My_roommate_is__c"].amount=2,(64*["X2018_General_Council__c.Lodging_number_of_days__c"].val),0)+IF(["X2018_General_Council__c.Pet_friendly_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Registered_service_animal__c"].amount=0, 50,0)
+["X2018_General_Council__c.Adult_guest_meals__c"].val*42.5+["X2018_General_Council__c.Child_guest_meals__c"].val*20+IF(((["X2018_General_Council__c.Are_you_willing_to_share_a_room__c"].amount=3) &amp;&amp; ["X2018_General_Council__c.Lodging_exception__c"].amount=0) || (["X2018_General_Council__c.Pet_friendly_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Registered_service_animal__c"].amount=0),(64*["X2018_General_Council__c.Lodging_number_of_days__c"].val),0)+IF(["X2018_General_Council__c.Pet_friendly_room__c"].amount=1 &amp;&amp; ["X2018_General_Council__c.Registered_service_animal__c"].amount=0, 50,0)

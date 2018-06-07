@@ -9,6 +9,18 @@ function  FF_OnAfterRender(){
 	var gcAttendanceStatus = $("select[name='X2018_General_Council__c.I_will_attend_General_Council_as_a__c'] option:selected").val();
 	$("#gcAttendanceStatus").text(gcAttendanceStatus);
 
+	$(".hasDatepicker").each(function(){
+		$(this).datepicker("destroy");
+		$(this).datepicker({
+			dateFormat: "mm/dd/yyyy",
+			format: "mm/dd/yyyy",
+	    useCurrent: false,
+	    showClose: true,
+	    minDate: '08/06/2018',
+	    maxDate: '08/12/2018',
+			});
+	});
+return true;
 }
 
 function changeLabels() {
@@ -49,6 +61,16 @@ function getNumericVal(actualValue, defaultValue) {
 	}
 	return returnValue;
 }
+
+$('#X2018_General_Council__c.Lodging_Check_in_Date__c').focus(function() {
+	$.datepicker({
+    format: 'YYYY-MM-DD',
+    useCurrent: false,
+    showClose: true,
+    minDate: '2018-08-06',
+    maxDate: '2018-08-12',
+})
+})
 
 function itemize(lodgedays, adultMeals, childMeals) {
 	$('#genlodgingdays').text(lodgedays);

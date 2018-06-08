@@ -12,8 +12,8 @@ function  FF_OnAfterRender(){
 	$(".hasDatepicker").each(function(){
 		$(this).datepicker("destroy");
 		$(this).datepicker({
-			dateFormat: "mm/dd/yyyy",
-			format: "mm/dd/yyyy",
+			dateFormat: "mm/dd/yy",
+			format: "mm/dd/yy",
 	    useCurrent: false,
 	    showClose: true,
 	    minDate: new Date('08/06/2018'),

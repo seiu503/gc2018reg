@@ -80,7 +80,7 @@ function itemize(lodgedays, adultMeals, childMeals) {
 
 function calculateLodgingSubTotal(lodgingDays){
 	var lodgingSub=0;
-	var roomType=$('#X2018_General_Council__c.Are_you_willing_to_share_a_room__c').val();
+	var roomType=$("select[name='X2018_General_Council__c.Are_you_willing_to_share_a_room__c'] option:selected").val();
 	var lodgingEx=$('#X2018_General_Council__c\\.Lodging_exception__c').is(':checked');
 	var pet=$('#X2018_General_Council__c\\.Pet_friendly_room__c').is(':checked');
 	var serviceAnimal=$('#X2018_General_Council__c\\.Registered_service_animal__c').is(':checked');
